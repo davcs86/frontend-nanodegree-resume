@@ -1,0 +1,29 @@
+{
+  "name": "frontend-nanodegree-resume",
+  "description": "Project #2 for Udacity's Front-End Nanodegree program by davcs86",
+  "main": "app/index.html",
+  "authors": [
+    "David Castillo (davcs86@gmail.com)"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/davcs86/frontend-nanodegree-resume",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass": "~3.3.5",
+    "iron-overlay-behavior": "PolymerElements/iron-overlay-behavior#~1.0.9",
+    "modernizr": "~2.8.3",
+    "knockout": "~3.3.0",
+    "paper-button": "PolymerElements/paper-button#~1.0.8",
+    "paper-dialog-scrollable": "PolymerElements/paper-dialog-scrollable#~1.0.1",
+    "paper-dialog": "PolymerElements/paper-dialog#~1.0.2",
+    "polymer": "Polymer/polymer#^1.2.0"
+  }
+}
