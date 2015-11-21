@@ -146,127 +146,6 @@ module.exports = function (grunt) {
             css: ['<%= config.dist %>/styles/{,*/}*.css']
         },
 
-        // The following *-min tasks produce minified files in the dist folder
-        responsive_images: {
-            dist: {
-                options: {
-                    engine: 'im',
-                    sizes: [
-                        {
-                            width: 245,
-                            suffix: '_1x',
-                            quality: 50
-                        },{
-                            width: 245,
-                            suffix: '_2x',
-                            quality: 70
-                        },
-                        {
-                            width: 320,
-                            suffix: '_1x',
-                            quality: 50
-                        },{
-                            width: 320,
-                            suffix: '_2x',
-                            quality: 70
-                        },
-                        {
-                            width: 360,
-                            suffix: '_1x',
-                            quality: 60
-                        },
-                        {
-                            width: 360,
-                            suffix: '_2x',
-                            quality: 80
-                        },
-                        {
-                            width: 522,
-                            suffix: '_1x',
-                            quality: 60
-                        },
-                        {
-                            width: 522,
-                            suffix: '_2x',
-                            quality: 80
-                        },
-                        {
-                            width: 752,
-                            suffix: '_2x',
-                            quality: 80
-                        },
-                        {
-                            width: 1160,
-                            suffix: '_1x',
-                            quality: 70
-                        },
-                        {
-                            width: 1160,
-                            suffix: '_2x',
-                            quality: 90
-                        }
-                    ]
-                },
-                files: [{
-                    expand: true,
-                    cwd: '<%= config.app %>/images',
-                    src: ['{,*/}*.{gif,jpeg,jpg,png}','!fixed/*','!banner/*'],
-                    dest: '<%= config.dist %>/images'
-                }]
-            },
-            banner: {
-                options: {
-                    engine: 'im',
-                    sizes: [
-                        {
-                            width: 320,
-                            suffix: '_1x',
-                            quality: 50
-                        },{
-                            width: 320,
-                            suffix: '_2x',
-                            quality: 70
-                        },
-                        {
-                            width: 522,
-                            suffix: '_1x',
-                            quality: 50
-                        },{
-                            width: 522,
-                            suffix: '_2x',
-                            quality: 70
-                        },
-                        {
-                            width: 752,
-                            suffix: '_1x',
-                            quality: 60
-                        },
-                        {
-                            width: 752,
-                            suffix: '_2x',
-                            quality: 80
-                        },
-                        {
-                            width: 1160,
-                            suffix: '_1x',
-                            quality: 70
-                        },
-                        {
-                            width: 1160,
-                            suffix: '_2x',
-                            quality: 90
-                        }
-                    ]
-                },
-                files: [{
-                    expand: true,
-                    cwd: '<%= config.app %>/images/banner',
-                    src: ['{,*/}*.{gif,jpeg,jpg,png}'],
-                    dest: '<%= config.dist %>/images/banner'
-                }]
-            }
-        },
-
         imagemin: {
             dynamic: {
                 options: {
@@ -274,9 +153,9 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: '<%= config.app %>/images/fixed',
+                    cwd: '<%= config.app %>/images',
                     src: ['{,*/}*.{gif,jpeg,jpg,png}'],
-                    dest: '<%= config.dist %>/images/fixed'
+                    dest: '<%= config.dist %>/images'
                 }]
             }
         },
@@ -298,7 +177,7 @@ module.exports = function (grunt) {
                     collapseBooleanAttributes: true,
                     collapseWhitespace: true,
                     conservativeCollapse: true,
-                    removeAttributeQuotes: true,
+                    removeAttributeQuotes: false,
                     removeCommentsFromCDATA: true,
                     removeEmptyAttributes: true,
                     removeOptionalTags: true,
@@ -336,10 +215,6 @@ module.exports = function (grunt) {
                     src: [
                         'bower_components/bootstrap-sass/assets/fonts/bootstrap/*',
                         'bower_components/polymer/polymer*.html',
-                        'bower_components/paper-*/{-,*/}*.*',
-                        'bower_components/paper-*/*',
-                        'bower_components/neon-*/{-,*/}*.*',
-                        'bower_components/neon-*/*',
                         'bower_components/iron-*/{-,*/}*.*',
                         'bower_components/iron-*/*',
                         'bower_components/font-*/*',
@@ -374,8 +249,6 @@ module.exports = function (grunt) {
             ],
             dist: [
                 'sass',
-                'responsive_images',
-                'responsive_images:banner',
                 'imagemin',
                 'svgmin'
             ]
