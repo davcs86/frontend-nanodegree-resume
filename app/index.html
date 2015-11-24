@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>David Castillo-Sanchez's resume</title>
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+        <!-- build:css(.) styles/vendor.css -->
+        <!-- bower:css -->
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        <!-- build:css(.tmp) styles/main.css -->
+        <link rel="stylesheet" href="styles/main.css">
+        <!-- endbuild -->
+        <!-- build:js scripts/vendor/modernizr.js -->
+        <script src="/bower_components/modernizr/modernizr.js"></script>
+        <!-- endbuild -->
+
+        <!-- build:js(.) scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="/bower_components/jquery/dist/jquery.js"></script>
+        <script src="/bower_components/knockout/dist/knockout.js"></script>
+        <script src="/bower_components/webcomponentsjs/webcomponents.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        <link rel="import" href="bower_components/google-map/google-map.html">
+        <link rel="import" href="bower_components/google-map/google-map-marker.html">
+        <link rel="import" href="bower_components/google-map/google-map-search.html">
+    </head>
+    <body data-spy="scroll" data-target="#main-navbar" data-offset="50">
+        <nav id="main-navbar" class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-scrollspy">
+                        <i class="glyphicon glyphicon-menu-hamburger"></i>
+                    </button>
+                    <a class="navbar-brand" href="#header">David Castillo-Sanchez</a>
+                </div>
+                <div class="collapse navbar-collapse navbar-scrollspy">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#workExperience">Work experience</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#education">Education</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="main" class="container-fluid">
+            <div class="row">
+                <div id="header" class="center-content clear-fix" data-bind="template: { name: 'header-template', data: bio }"></div>
+                <div id="workExperience" class="gray" data-bind="template: { name: 'work-template', data: work }"></div>
+                <div id="projects" class="gray" data-bind="template: { name: 'projects-template', data: projects }"></div>
+                <div id="education" class="gray" data-bind="template: { name: 'education-template', data: education }"></div>
+                <div id="mapDiv">
+                    <h2>Where I've Lived and Worked</h2>
+                    <template is="dom-bind" id="locationsMap">
+                        <!-- Bind the locations in the viewmodel -->
+                        <template is="dom-repeat" items="{{places}}" as="place">
+                            <google-map-search class="google-map-search" map="[[map]]" query="{{place}}" globalSearch="true"></google-map-search>
+                        </template>
+                        <google-map id="locationsMapElement" fit-to-markers click-events map="{{map}}" min-zoom="3" max-zoom="11" language="en">
+                            <template is="dom-repeat" items="{{results}}" as="marker">
+                                <google-map-marker latitude="{{marker.latitude}}" longitude="{{marker.longitude}}">
+                                    <h2>{{marker.name}}</h2>
+                                    <span>{{marker.formatted_address}}</span>
+                                </google-map-marker>
+                            </template>
+                        </google-map>
+                    </template>
+                </div>
+                <div id="lets-connect" class="dark-gray">
+                    <h2 class="orange white-text center-text">Let's Connect</h2>
+                    <ul id="footerContacts" class="flex-box">
+                        <li class="flex-item">
+                            <span class="orange-text">location</span>
+                            <span data-bind="html: bio.contacts.location" class="white-text"></span>
+                        </li>
+                        <li class="flex-item">
+                            <span class="orange-text">mobile</span>
+                            <span data-bind="html: bio.contacts.mobile" class="white-text"></span>
+                        </li>
+                        <li class="flex-item">
+                            <span class="orange-text">email</span>
+                            <span data-bind="html: bio.contacts.email" class="white-text"></span>
+                        </li>
+                        <li class="flex-item">
+                            <span class="orange-text">github</span>
+                            <span data-bind="html: bio.contacts.github" class="white-text"></span>
+                        </li>
+                        <li class="flex-item">
+                            <span class="orange-text">twitter</span>
+                            <span data-bind="html: bio.contacts.twitter" class="white-text"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- KO Header template -->
+        <script type="text/html" id="header-template">
+            <h1 id="name" data-bind="text: name"></h1>
+            <span class="white-text" data-bind="text: role"></span><hr/>
+            <ul id="topContacts" class="flex-box" >
+                <li class="flex-item">
+                    <span class="orange-text">location</span>
+                    <span data-bind="html: $parent.bio.contacts.location" class="white-text"></span>
+                </li>
+                <li class="flex-item">
+                    <span class="orange-text">mobile</span>
+                    <span data-bind="html: $parent.bio.contacts.mobile" class="white-text"></span>
+                </li>
+                <li class="flex-item">
+                    <span class="orange-text">email</span>
+                    <span data-bind="html: $parent.bio.contacts.email" class="white-text"></span>
+                </li>
+                <li class="flex-item">
+                    <span class="orange-text">github</span>
+                    <span data-bind="html: $parent.bio.contacts.github" class="white-text"></span>
+                </li>
+                <li class="flex-item">
+                    <span class="orange-text">twitter</span>
+                    <span data-bind="html: $parent.bio.contacts.twitter" class="white-text"></span>
+                </li>
+            </ul>
+            <img data-bind="attr: {src: biopic}" class="biopic" alt="David Castillo's image">
+            <span data-bind="text: welcomeMessage" class="welcome-message"></span>
+            <h3 id="skills-h3">Skills at a Glance:</h3>
+            <ul id="skills" class="flex-box" data-bind="template: { name: 'header-skills-template', foreach: skills, as: 'skill' }"></ul>
+        </script>
+
+        <!-- KO Header-skills template -->
+        <script type="text/html" id="header-skills-template">
+            <li class="flex-item">
+                <span data-bind="text: skill" class="white-text"></span>
+            </li>
+        </script>
+
+        <!-- KO Education template -->
+        <script type="text/html" id="education-template">
+            <h2>Education</h2>
+            <div data-bind="template: { name: 'education-school-template', foreach: schools, as: 'school' }"></div>
+            <h3>Online Classes</h3>
+            <div data-bind="template: { name: 'education-onlinecourse-template', foreach: onlineCourses, as: 'onlineCourse' }"></div>
+        </script>
+
+        <!-- KO Education-school template -->
+        <script type="text/html" id="education-school-template">
+            <div class="education-entry">
+                <div>
+                    <a href="#" data-bind="text: name + ' -- ' + degree"></a>
+                </div>
+                <div class="date-text" data-bind="text: dates"></div>
+                <div class="location-text" data-bind="text: location"></div>
+                <br>
+                <em data-bind="text: 'Majors: ' + majors.join('; ')"></em>
+                <br>
+            </div>
+        </script>
+
+        <!-- KO Education-onlineCourse template -->
+        <script type="text/html" id="education-onlinecourse-template">
+            <div class="education-entry">
+                <div>
+                    <a href="#" data-bind="text: title + ' -- ' + school"></a>
+                </div>
+                <div class="date-text" data-bind="text: date"></div>
+                <br>
+                <a data-bind="text: url, attr: { href : url }"></a>
+                <br>
+            </div>
+        </script>
+
+        <!-- KO Work template -->
+        <script type="text/html" id="work-template">
+            <h2>Work experience</h2>
+            <div data-bind="template: { name: 'work-entry-template', foreach: jobs, as: 'job' }"></div>
+        </script>
+
+        <!-- KO Work-entry template -->
+        <script type="text/html" id="work-entry-template">
+            <div class="work-entry">
+                <div>
+                    <a href="#" data-bind="text: employer + ' - ' + title"></a>
+                </div>
+                <div class="date-text" data-bind="text: dates"></div>
+                <div class="location-text" data-bind="text: location"></div>
+                <br>
+                <p data-bind="text: description"></p>
+                <br>
+            </div>
+        </script>
+
+        <!-- KO Projects template -->
+        <script type="text/html" id="projects-template">
+            <h2>Projects</h2>
+            <div data-bind="template: { name: 'project-entry-template', foreach: projects, as: 'project' }"></div>
+        </script>
+
+        <!-- KO Project-entry template -->
+        <script type="text/html" id="project-entry-template">
+            <div class="project-entry">
+                <div>
+                    <a href="#" data-bind="text: title"></a>
+                </div>
+                <div class="date-text" data-bind="text: dates"></div>
+                <br>
+                <p data-bind="text: description"></p>
+                <br>
+                <div data-bind="template: { name: 'project-entry-image-template', foreach: images, as: 'project-image' }"></div>
+            </div>
+        </script>
+
+        <!-- KO Project-entry template -->
+        <script type="text/html" id="project-entry-image-template">
+            <img data-bind="attr: { src: $data }">
+        </script>
+
+        <!-- build:js(.) scripts/plugins.js -->
+        <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>
+        <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
+        <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
+        <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
+        <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal.js"></script>
+        <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
+        <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
+        <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script>
+        <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/carousel.js"></script>
+        <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js"></script>
+        <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
+        <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
+        <!-- endbuild -->
+
+        <!-- build:js scripts/main.js -->
+        <!--<script src="scripts/helper.js"></script>-->
+        <script src="scripts/resumeBuilder.js"></script>
+        <!-- endbuild -->
+</body>
+</html>
