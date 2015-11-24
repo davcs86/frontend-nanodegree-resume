@@ -1,5 +1,5 @@
 /* eslint no-undef: [2, { typeof: true }] */
-/*global ko*/
+/* global ko */
 var ViewModel = {
     bio: {
         name: 'David Castillo-Sanchez',
@@ -13,7 +13,7 @@ var ViewModel = {
         },
         welcomeMessage: 'Welcome to my resume!',
         skills: [ 'html5', 'css3', 'sass', 'bootstrap-3', 'jquery', 'knockoutjs' ],
-        biopic: 'images/fry.jpg'
+        biopic: 'images/me.jpg'
     },
     education: {
         schools: [
@@ -62,39 +62,41 @@ var ViewModel = {
                 title: '.Net Web developer',
                 location: 'Villahermosa, MX',
                 dates: '04/2014 - Current',
-                description: ''
+                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec scelerisque, quam tincidunt condimentum ornare, odio nibh efficitur urna, eget mattis justo nibh a tortor. Integer et nisi sapien. Cras nibh eros, rutrum vel sollicitudin dapibus, cursus ac massa. Nam cursus molestie faucibus.'
             },
             {
                 employer: 'Freelancer.com',
                 title: 'Web developer',
                 location: 'Remote work',
                 dates: '08/2008 - Current',
-                description: ''
+                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec scelerisque, quam tincidunt condimentum ornare, odio nibh efficitur urna, eget mattis justo nibh a tortor. Integer et nisi sapien. Cras nibh eros, rutrum vel sollicitudin dapibus, cursus ac massa. Nam cursus molestie faucibus.'
             },
             {
                 employer: 'Compañía Mexicana de Exploraciones SA de CV',
                 title: '.Net Web developer',
                 location: 'Villahermosa, MX',
                 dates: '07/2014 - 03/2015',
-                description: ''
+                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec scelerisque, quam tincidunt condimentum ornare, odio nibh efficitur urna, eget mattis justo nibh a tortor. Integer et nisi sapien. Cras nibh eros, rutrum vel sollicitudin dapibus, cursus ac massa. Nam cursus molestie faucibus.'
             },
             {
                 employer: 'Grupo Empresarial Syfors SA de CV',
                 title: 'PHP & Android developer',
                 location: 'Saltillo, MX',
                 dates: '09/2013 - 05/2014',
-                description: ''
+                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec scelerisque, quam tincidunt condimentum ornare, odio nibh efficitur urna, eget mattis justo nibh a tortor. Integer et nisi sapien. Cras nibh eros, rutrum vel sollicitudin dapibus, cursus ac massa. Nam cursus molestie faucibus.'
             }
         ]
     },
     projects: {
         projects: [
             {
-                title: '',
-                dates: '-',
-                description: '',
+                title: 'Fake project #1',
+                dates: '2010-2015',
+                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec scelerisque, quam tincidunt condimentum ornare, odio nibh efficitur urna, eget mattis justo nibh a tortor. Integer et nisi sapien. Cras nibh eros, rutrum vel sollicitudin dapibus, cursus ac massa. Nam cursus molestie faucibus.',
                 images: [
-
+                    'http://placehold.it/200x150',
+                    'http://placehold.it/200x150',
+                    'http://placehold.it/200x150'
                 ]
             }
         ]
@@ -125,7 +127,7 @@ jQuery(function($){
     // push the locations in the google-map element
     locationsMap.set('places',getLocations());
     $('body').on('google-map-search-results','.google-map-search',function() {
-        // reads Google Places search results to create map pins
+        // reads Google Places search (this.results) results to create map pins
         var currentResults = locationsMap.get('results');
         if (typeof currentResults === 'undefined') {
             currentResults = [];
@@ -138,7 +140,13 @@ jQuery(function($){
         locationsMap.set('results', currentResults);
     });
     $('body').on('google-map-click','*', function(ev){
-        console.dir(ev);
+        //save offset of the click
+        var mapContainer = $(locationsMap).offset();
+        var eventCoords = ev.originalEvent.detail.pixel;
+        logClicks(
+            eventCoords.x + mapContainer.left,
+            eventCoords.y + mapContainer.top
+        );
     });
 
     var clickLocations = [];
@@ -150,6 +158,8 @@ jQuery(function($){
                 y: y
             }
         );
+        // commented out to pass esLint no-console rule
+        // console.log('x location: ' + x + '; y location: ' + y);
     }
 
     $(document).click(function(ev) {
