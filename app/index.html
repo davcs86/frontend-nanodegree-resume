@@ -17,26 +17,65 @@
         <script src="/bower_components/modernizr/modernizr.js"></script>
         <!-- endbuild -->
 
+        <!-- build:js(.) scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="/bower_components/jquery/dist/jquery.js"></script>
+        <script src="/bower_components/knockout/dist/knockout.js"></script>
+        <script src="/bower_components/webcomponentsjs/webcomponents.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        <link rel="import" href="bower_components/google-map/google-map.html">
+        <link rel="import" href="bower_components/google-map/google-map-marker.html">
+        <link rel="import" href="bower_components/google-map/google-map-search.html">
     </head>
     <body>
         <div id="main">
             <div id="header" class="center-content clear-fix" data-bind="template: { name: 'header-template', data: bio }"></div>
             <div style="clear: both;"></div>
-            <div id="workExperience" class="gray">
-                <h2>Work Experience</h2>
-            </div>
-            <div id="projects">
-                <h2>Projects</h2>
-            </div>
-            <div id="education" class="gray">
-                <h2>Education</h2>
-            </div>
+            <div id="workExperience" class="gray" data-bind="template: { name: 'work-template', data: work }"></div>
+            <div id="projects" class="gray" data-bind="template: { name: 'projects-template', data: projects }"></div>
+            <div id="education" class="gray" data-bind="template: { name: 'education-template', data: education }"></div>
             <div id="mapDiv">
                 <h2>Where I've Lived and Worked</h2>
+                <template is="dom-bind" id="locationsMap">
+                    <!-- Bind the locations in the viewmodel -->
+                    <template is="dom-repeat" items="{{places}}" as="place">
+                        <google-map-search class="google-map-search" map="[[map]]" query="{{place}}" globalSearch="true"></google-map-search>
+                    </template>
+                    <google-map id="locationsMapElement" fit-to-markers click-events map="{{map}}" min-zoom="3" max-zoom="11" language="en">
+                        <template is="dom-repeat" items="{{results}}" as="marker">
+                            <google-map-marker latitude="{{marker.latitude}}" longitude="{{marker.longitude}}">
+                                <h2>{{marker.name}}</h2>
+                                <span>{{marker.formatted_address}}</span>
+                            </google-map-marker>
+                        </template>
+                    </google-map>
+                </template>
             </div>
             <div id="lets-connect" class="dark-gray">
                 <h2 class="orange center-text">Let's Connect</h2>
                 <ul id="footerContacts" class="flex-box">
+                    <li class="flex-item">
+                        <span class="orange-text">location</span>
+                        <span data-bind="html: bio.contacts.location" class="white-text"></span>
+                    </li>
+                    <li class="flex-item">
+                        <span class="orange-text">mobile</span>
+                        <span data-bind="html: bio.contacts.mobile" class="white-text"></span>
+                    </li>
+                    <li class="flex-item">
+                        <span class="orange-text">email</span>
+                        <span data-bind="html: bio.contacts.email" class="white-text"></span>
+                    </li>
+                    <li class="flex-item">
+                        <span class="orange-text">github</span>
+                        <span data-bind="html: bio.contacts.github" class="white-text"></span>
+                    </li>
+                    <li class="flex-item">
+                        <span class="orange-text">twitter</span>
+                        <span data-bind="html: bio.contacts.twitter" class="white-text"></span>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -45,28 +84,93 @@
         <script type="text/html" id="header-template">
             <h1 id="name" data-bind="text: name"></h1>
             <span data-bind="text: role"></span><hr/>
-            <ul id="topContacts" class="flex-box" data-bind="template: { name: 'header-contacts-template', foreach: contacts, as: 'contact' }"></ul>
+            <ul id="topContacts" class="flex-box" >
+                <li class="flex-item">
+                    <span class="orange-text">location</span>
+                    <span data-bind="html: $parent.bio.contacts.location" class="white-text"></span>
+                </li>
+                <li class="flex-item">
+                    <span class="orange-text">mobile</span>
+                    <span data-bind="html: $parent.bio.contacts.mobile" class="white-text"></span>
+                </li>
+                <li class="flex-item">
+                    <span class="orange-text">email</span>
+                    <span data-bind="html: $parent.bio.contacts.email" class="white-text"></span>
+                </li>
+                <li class="flex-item">
+                    <span class="orange-text">github</span>
+                    <span data-bind="html: $parent.bio.contacts.github" class="white-text"></span>
+                </li>
+                <li class="flex-item">
+                    <span class="orange-text">twitter</span>
+                    <span data-bind="html: $parent.bio.contacts.twitter" class="white-text"></span>
+                </li>
+            </ul>
+            <img data-bind="attr: {src: biopic}" class="biopic" alt="David Castillo's image">
+            <span data-bind="text: welcomeMessage" class="welcome-message"></span>
+            <h3 id="skills-h3">Skills at a Glance:</h3>
+            <ul id="skills" class="flex-box" data-bind="template: { name: 'header-skills-template', foreach: skills, as: 'skill' }"></ul>
         </script>
 
-        <!-- KO Header contacts template -->
+        <!-- KO Header-contacts template -->
         <script type="text/html" id="header-contacts-template">
-            <li class="flex-item"><span data-bind="text: title" class="orange-text"></span><span data-bind="html: contact" class="white-text"></span></li>
+            <li class="flex-item">
+                <span data-bind="text: $index" class="orange-text"></span>
+                <span data-bind="html: $data" class="white-text"></span>
+            </li>
         </script>
 
-        <!-- KO Bio template -->
-        <script type="text/html" id="bio-template">
-
+        <!-- KO Header-skills template -->
+        <script type="text/html" id="header-skills-template">
+            <li class="flex-item">
+                <span data-bind="text: skill" class="white-text"></span>
+            </li>
         </script>
 
-        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
+        <!-- KO Education template -->
+        <script type="text/html" id="education-template">
+            <h2>Education</h2>
+            <div data-bind="template: { name: 'education-school-template', foreach: schools, as: 'school' }"></div>
+            <h3>Online Classes</h3>
+            <div data-bind="template: { name: 'education-onlinecourse-template', foreach: onlineCourses, as: 'onlineCourse' }"></div>
+        </script>
 
-        <!-- build:js(.) scripts/vendor.js -->
-        <!-- bower:js -->
-        <script src="/bower_components/jquery/dist/jquery.js"></script>
-        <script src="/bower_components/knockout/dist/knockout.js"></script>
-        <script src="/bower_components/webcomponentsjs/webcomponents.js"></script>
-        <!-- endbower -->
-        <!-- endbuild -->
+        <!-- KO Education-school template -->
+        <script type="text/html" id="education-school-template">
+            <div class="education-entry">
+                <div>
+                    <a href="#" data-bind="text: name + ' -- ' + degree"></a>
+                </div>
+                <div class="date-text" data-bind="text: dates"></div>
+                <div class="location-text" data-bind="text: location"></div>
+                <br>
+                <em data-bind="text: 'Majors: ' + majors.join('; ')"></em>
+                <br>
+            </div>
+        </script>
+
+        <!-- KO Education-onlineCourse template -->
+        <script type="text/html" id="education-onlinecourse-template">
+            <div class="education-entry">
+                <div>
+                    <a href="#" data-bind="text: title + ' -- ' + school"></a>
+                </div>
+                <div class="date-text" data-bind="text: date"></div>
+                <br>
+                <a data-bind="text: url, attr: { href : url }"></a>
+                <br>
+            </div>
+        </script>
+
+        <!-- KO Work template -->
+        <script type="text/html" id="work-template">
+            <h2>Work experience</h2>
+        </script>
+
+        <!-- KO Projects template -->
+        <script type="text/html" id="projects-template">
+            <h2>Projects</h2>
+        </script>
 
         <!-- build:js(.) scripts/plugins.js -->
         <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>

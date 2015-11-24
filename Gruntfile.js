@@ -218,7 +218,9 @@ module.exports = function (grunt) {
                         'bower_components/iron-*/{-,*/}*.*',
                         'bower_components/iron-*/*',
                         'bower_components/font-*/*',
-                        'bower_components/web-animations-js/web-*.js'
+                        'bower_components/web-animations-js/web-*.js',
+                        'bower_components/google-apis/*.html',
+                        'bower_components/google-map/*.html'
                     ],
                     dest: '<%= config.dist %>'
                 }]

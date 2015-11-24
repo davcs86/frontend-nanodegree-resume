@@ -22,5 +22,8 @@
     "knockout": "~3.4.0",
     "polymer": "Polymer/polymer#^1.2.0",
     "google-map": "GoogleWebComponents/google-map#~1.1.7"
+  },
+  "devDependencies": {
+    "google-map": "GoogleWebComponents/google-map#~1.1.7"
   }
 }
